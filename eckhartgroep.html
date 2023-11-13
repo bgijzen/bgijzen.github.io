@@ -1,0 +1,539 @@
+<html>
+
+<head>
+    <title>Questionaire</title>
+</head>
+
+<body>
+    <div style="width: 60%; margin: auto;font-size: larger;">
+        <div>Bron: <a href="https://www.woordenmetzielenzin.nl/god-9-0">woordenmetzielenzin</a></div><br />
+        <div id="explanation">
+            Lees de volgende uitspraken door. Kies spontaan, zonder veel na te denken, het cijfer dat
+            aangeeft of je het met die uitspraak eens bent: 0=helemaal niet mee eens, 1=een beetje mee eens,
+            2=zeer mee eens, 3=totaal mee eens.
+        </div><br /></br />
+        <div id="questions"></div>
+        <button onclick="showResults();" id="resultButton">Toon reslutaten</button>
+        <div id="results" style="display: none;">
+            <table style="font-size: larger;">
+                <tr>
+                    <td>Purper</td>
+                    <td id="result-purple"></td>
+                </tr>
+                <tr>
+                    <td>Rood</td>
+                    <td id="result-red"></td>
+                </tr>
+                <tr>
+                    <td>Blauw</td>
+                    <td id="result-blue"></td>
+                </tr>
+                <tr>
+                    <td>Oranje</td>
+                    <td id="result-orange"></td>
+                </tr>
+                <tr>
+                    <td>Groen</td>
+                    <td id="result-green"></td>
+                </tr>
+                <tr>
+                    <td>Geel</td>
+                    <td id="result-yellow"></td>
+                </tr>
+                <tr>
+                    <td>Turquoise</td>
+                    <td id="result-turquoise"></td>
+                </tr>
+            </table>
+            <button onclick="hideResults();" id="questionsButton">Toon vragen</button>
+        </div>
+    </div>
+</body>
+<script>
+    var questions =
+        [
+            {
+                "text": "De hoogte van de beloning bij een beroep is voor mij niet zo belangrijk. Hoofdzaak is dat mijn werk het welzijn van anderen en van de samenleving bevordert.",
+                "color": "groen",
+                "category": "Mijn beroep"
+            },
+            {
+                "text": "Ik wil alleen werken bij een zaak die me mijn vrijheid laat: dat ik kan komen en gaan wanneer ik wil en dat me niet wordt voorgeschreven wat ik moet denken",
+                "color": "geel",
+                "category": "Mijn beroep"
+            },
+            {
+                "text": "Ik leer ontzettend graag en ik ontdek zelf welke stukken informatie bij elkaar passen, en hoe.",
+                "color": "turquoise",
+                "category": "Mijn beroep"
+            },
+            {
+                "text": "Mijn ideale baan is een soort werk waarbij ze me met rust laten en waarmee ik zoveel mogelijk geld verdien.",
+                "color": "rood",
+                "category": "Mijn beroep"
+            },
+            {
+                "text": "Ik vind het belangrijk dat een onderneming heldere principes heeft waaraan iedereen zich moet houden, en dat die principes ook op papier staan.",
+                "color": "blauw",
+                "category": "Mijn beroep"
+            },
+            {
+                "text": "In mijn beroep zoek ik zelf de niche op waar mijn talenten optimaal tot hun recht komen en er goed voor betaald wordt.",
+                "color": "oranje",
+                "category": "Mijn beroep"
+            },
+            {
+                "text": "Een afdeling in een bedrijf heeft vaste rituelen nodig, zodat de mensen een eenheid vormen.",
+                "color": "purper",
+                "category": "Mijn beroep"
+            },
+            {
+                "text": "Een werknemer zou betaald moeten worden naar zijn inzet voor de onderneming. Ook moed om risico te nemen zou beloond moeten worden.",
+                "color": "oranje",
+                "category": "Mijn inkomen"
+            },
+            {
+                "text": "Materiële zaken zijn in de loop van mijn leven steeds minder belangrijk geworden.",
+                "color": "geel",
+                "category": "Mijn inkomen"
+            },
+            {
+                "text": " Materiële zaken zijn heel belangrijk voor me, ja, ze kunnen op mij een magische uitwerking hebben.",
+                "color": "purper",
+                "category": "Mijn inkomen"
+            },
+            {
+                "text": " Ik ben er diep van overtuigd dat er voor mij en mijn gezin altijd genoeg middelen zullen zijn om te overleven en het goed te hebben.",
+                "color": "turquoise",
+                "category": "Mijn inkomen"
+            },
+            {
+                "text": " De armoede in de samenleving moet overwonnen worden. Daarvoor ben ik best bereid om fors minder te gaan verdienen.",
+                "color": "groen",
+                "category": "Mijn inkomen"
+            },
+            {
+                "text": " Ik vind het wel terecht als de sterkere of snellere persoon meer verdient dan de zwakkere of langzamere.",
+                "color": "rood",
+                "category": "Mijn inkomen"
+            },
+            {
+                "text": " Ik zou mijn idealen nooit verraden puur om in mijn beroep hogerop te komen. Het doel heiligt de middelen niet.",
+                "color": "blauw",
+                "category": "Mijn inkomen"
+            },
+            {
+                "text": " Het stoort mij als er in een groep een slechte sfeer heerst, als sommigen egoïstisch zijn en de groep uit het oog verliezen.",
+                "color": "groen",
+                "category": "Mijn optimale werkomgeving"
+            },
+            {
+                "text": " Ik kan goed met mensen samenwerken die heel anders in elkaar steken dan ikzelf en die overtuigingen aanhangen die mij volledig vreemd zijn.",
+                "color": "geel",
+                "category": "Mijn optimale werkomgeving"
+            },
+            {
+                "text": " Ik houd van een simpele, minimalistische omgeving, want dat helpt mij om maximale innerlijke ruimte te krijgen.",
+                "color": "turquoise",
+                "category": "Mijn optimale werkomgeving"
+            },
+            {
+                "text": " Ik maak me geen illusies: in het beroepsleven gaat het vooral om macht, ook al doet iedereen nog zo lief en aardig.",
+                "color": "rood",
+                "category": "Mijn optimale werkomgeving"
+            },
+            {
+                "text": " Ik houd van een dynamische omgeving, waar prestatie beloond wordt en er een sportieve sfeer van competitie heerst.",
+                "color": "oranje",
+                "category": "Mijn optimale werkomgeving"
+            },
+            {
+                "text": " Ik heb om me heen vooral mensen nodig die eerlijk zijn, op tijd komen, en van wie ik weet dat ze hun afspraken nakomen.",
+                "color": "blauw",
+                "category": "Mijn optimale werkomgeving"
+            },
+            {
+                "text": " Ik houd van teams waarin je sterk op elkaar bent aangewezen en waarin je in geval van nood offers voor elkaar brengt.",
+                "color": "purper",
+                "category": "Mijn optimale werkomgeving"
+            },
+            {
+                "text": " Als ik in mijn beroep of gezondheid in een situatie terecht kom die uitzichtloos lijkt, zeg ik tegen mezelf: het is altijd de moeite waard om te vechten!",
+                "color": "rood",
+                "category": "Mijn gedrag in crisissituaties"
+            },
+            {
+                "text": " Ik voorkom crisissituaties door, net als in het schaakspel, een paar zetten vooruit te denken en strategieën voor alle mogelijke scenarios te ontwikkelen.",
+                "color": "oranje",
+                "category": "Mijn gedrag in crisissituaties"
+            },
+            {
+                "text": " Bij grote stress trek ik me terug in mijn innerlijke orde en daar word ik weer rustig van.",
+                "color": "blauw",
+                "category": "Mijn gedrag in crisissituaties"
+            },
+            {
+                "text": " In crisissituaties lukt het me om me in gedachten uit mijn eigen situatie omhoog te tillen, zodat ik mijn problemen kan zien in verhouding tot de echt grote levensproblemen.",
+                "color": "geel",
+                "category": "Mijn gedrag in crisissituaties"
+            },
+            {
+                "text": " Ik zou in een moeilijke situatie ook wel naar een waarzegster of een helderziende gaan om raad te vagen.",
+                "color": "purper",
+                "category": "Mijn gedrag in crisissituaties"
+            },
+            {
+                "text": " In persoonlijke crisissituaties zoek ik hulp bij therapeuten en geestelijke bijstand van anderen. Ik vind het goed dat er zoveel zelfhulp-organisaties zijn.",
+                "color": "groen",
+                "category": "Mijn gedrag in crisissituaties"
+            },
+            {
+                "text": " In crisissituaties kan ik naar een andere bewustzijnslaag omschakelen – dan voel ik me op een fascinerende manier bevrijd van de beperkingen van deze tijd en van de materie.",
+                "color": "turquoise",
+                "category": "Mijn gedrag in crisissituaties"
+            },
+            {
+                "text": " Er bestaat een hogere macht die deze wereld regeert – niet alleen via de natuurwetten, maar ook via de wetten van de geest.",
+                "color": "blauw",
+                "category": "Mijn overtuigingen"
+            },
+            {
+                "text": " Deze wereld is een elegant uitgebalanceerd systeem, waarin talloze krachten er als één groot organisme voor zorgen dat het leven op aarde doorgaat.",
+                "color": "turquoise",
+                "category": "Mijn overtuigingen"
+            },
+            {
+                "text": " Ik geloof dat deze wereld een tamelijk chaotisch systeem is dat nog voor heel wat verrassingen gaat zorgen.",
+                "color": "geel",
+                "category": "Mijn overtuigingen"
+            },
+            {
+                "text": " De samenleving en de wetenschap hebben de kracht om vooruitgang te brengen en de toekomst vorm te geven.",
+                "color": "oranje",
+                "category": "Mijn overtuigingen"
+            },
+            {
+                "text": " Alles hangt met alles samen. Zolang er zoveel mensen benadeeld, zwak en uitgesloten zijn, kan een samenleving niet gezond en gelukkig worden.",
+                "color": "groen",
+                "category": "Mijn overtuigingen"
+            },
+            {
+                "text": " Onze samenleving is een jungle waarin alleen de sterkste en listigste mensen overleven.",
+                "color": "rood",
+                "category": "Mijn overtuigingen"
+            },
+            {
+                "text": " Ik geloof dat de zielen van mijn voorvaderen nog op een geheimzinnige manier aanwezig zijn en over mij waken.",
+                "color": "purper",
+                "category": "Mijn overtuigingen"
+            },
+            {
+                "text": " Hier houd ik mij aan: de enige ter wereld die ik echt kan vertrouwen, ben ik zelf.",
+                "color": "rood",
+                "category": "Mijn typische gedragspatronen"
+            },
+            {
+                "text": " Ik denk graag op de lange termijn, maar in alledaagse beslissingen ben ik heel flexibel en niet erg principieel.",
+                "color": "geel",
+                "category": "Mijn typische gedragspatronen"
+            },
+            {
+                "text": " Ik houd mezelf aan hoge morele waarden en verwacht dat die ook door anderen gerespecteerd worden.",
+                "color": "blauw",
+                "category": "Mijn typische gedragspatronen"
+            },
+            {
+                "text": " Ik kan me oprecht verheugen over alle mooie verworvenheden van dit technische tijdperk en deze beschaving.",
+                "color": "oranje",
+                "category": "Mijn typische gedragspatronen"
+            },
+            {
+                "text": " Ik kan in gedachten vanuit het alledaagse bestaan als het ware opstijgen en de planeet aarde als een groot geheel zien.",
+                "color": "turquoise",
+                "category": "Mijn typische gedragspatronen"
+            },
+            {
+                "text": " Gelijke rechten voor man en vrouw, de gelijkheid van alle mensen en zorg voor de schepping: dat gaat me echt aan het hart, en niet alleen maar omdat ik nu eenmaal zo ben opgevoed.",
+                "color": "groen",
+                "category": "Mijn typische gedragspatronen"
+            },
+            {
+                "text": " Ik probeer om mee te gaan met het ritme van de natuur: het afwisselen van de seizoenen, de menstruatiecyclus, de maanstanden.",
+                "color": "purper",
+                "category": "Mijn typische gedragspatronen"
+            },
+            {
+                "text": " Als ik een arm of lijdend mens zie, voel ik me daar diep mee verbonden en heb ik een grote aandrang om te helpen.",
+                "color": "groen",
+                "category": "Mijn bevliegingen"
+            },
+            {
+                "text": " Ik houd van computerspellen waarin ik nou eens ongegeneerd de krachtpatser kan zijn.",
+                "color": "rood",
+                "category": "Mijn bevliegingen"
+            },
+            {
+                "text": " Vaak overkomt me een geluksgevoel als ik bedenk dat we een samenleving hebben waarin informatie vrij beschikbaar is, zonder dat bepaalde boeken verboden zijn of ik in de gaten gehouden word.",
+                "color": "oranje",
+                "category": "Mijn bevliegingen"
+            },
+            {
+                "text": " Ik houd me principieel aan de wet, ook in de kleine dingen: ik wacht ook ’s nachts bij een rood verkeerslicht en sjoemel ook niet met de belasting.",
+                "color": "blauw",
+                "category": "Mijn bevliegingen"
+            },
+            {
+                "text": " Ik zie mezelf graag als wereldburger en voel ook een bovengemiddelde liefde voor deze planeet en zijn bewoners.",
+                "color": "turquoise",
+                "category": "Mijn bevliegingen"
+            },
+            {
+                "text": " Als ik in een kerk of op een openbare plek zie dat mensen een standbeeld op een bepaalde plek aanraken (omdat dat misschien geluk brengt), dan doe ik het ook. Het kan immers geen kwaad.",
+                "color": "purper",
+                "category": "Mijn bevliegingen"
+            },
+            {
+                "text": " Ik kan best leven met paradoxale waarheden. Maar ik haak af als een samenleving, een bedrijf, een kerk of welke groep dan ook alleen voor het eigen belang gaat.",
+                "color": "geel",
+                "category": "Mijn bevliegingen"
+            },
+            {
+                "text": " Ik ben met personen en groepen in de hele wereld verbonden via allerlei sociale netwerken op het internet, maar de gewone menselijke contacten komen daardoor soms wel wat tekort.",
+                "color": "geel",
+                "category": "Een paar negatieve eigenschappen van mij"
+            },
+            {
+                "text": " In mijn beleving is mijn intuïtie net zo competent als mijn verstand. Ik voel dat ik daardoor vaak duidelijk iets voor heb op anderen.",
+                "color": "turquoise",
+                "category": "Een paar negatieve eigenschappen van mij"
+            },
+            {
+                "text": " Er zijn soms situaties waarin ik het genadeloos win van een rivaal, en daar kan ik me dan beestachtig vrolijk over maken.",
+                "color": "rood",
+                "category": "Een paar negatieve eigenschappen van mij"
+            },
+            {
+                "text": " Over onrecht kan ik me mateloos opwinden, zodat ik anderen verwijten ga maken die op zich ook weer onterecht kunnen zijn.",
+                "color": "blauw",
+                "category": "Een paar negatieve eigenschappen van mij"
+            },
+            {
+                "text": " In vergaderingen vind ik het zó belangrijk dat iedereen zich prettig voelt en dat er ruimte is voor gevoelens, dat ik soms uit het oog verlies dat zo’n vergadering ook iets moet opleveren.",
+                "color": "groen",
+                "category": "Een paar negatieve eigenschappen van mij"
+            },
+            {
+                "text": " Ik heb grote problemen met mensen die geen verantwoordelijkheid willen nemen voor hun eigen situatie, maar die altijd hulp van anderen of van de overheid verwachten.",
+                "color": "oranje",
+                "category": "Een paar negatieve eigenschappen van mij"
+            },
+            {
+                "text": " Als ik ’s nachts alleen thuis ben of alleen over straat loop, word ik soms overvallen door totaal irrationele angsten.",
+                "color": "purper",
+                "category": "Een paar negatieve eigenschappen van mij"
+            },
+            {
+                "text": " Ik heb wel meegemaakt dat ik door volhardend uit het diepst van mijn hart te bidden, de werkelijkheid kan veranderen.",
+                "color": "rood",
+                "category": "Mijn geloof"
+            },
+            {
+                "text": " Ik voel me spiritueel met alle mensen verbonden, ook met de mensen van andere godsdiensten.",
+                "color": "groen",
+                "category": "Mijn geloof"
+            },
+            {
+                "text": " Diep van binnen voel ik me sterk verbonden met mijn kerk, mijn vaderland en mijn landgenoten.",
+                "color": "blauw",
+                "category": "Mijn geloof"
+            },
+            {
+                "text": " Ik houd van krachtplekken en heilige plaatsen en ik voel hoeveel bovenzintuiglijke energie er in oude rituelen zit, ook in de sacramenten.",
+                "color": "purper",
+                "category": "Mijn geloof"
+            },
+            {
+                "text": " Ik voel me zo sterk verbonden met het goddelijke, dat ik mezelf boven alle wereldbeschouwingen, religies en geloofssystemen uit kan ervaren als onderdeel van de ziel van de mensheid.",
+                "color": "turquoise",
+                "category": "Mijn geloof"
+            },
+            {
+                "text": " Ik ben innerlijk helemaal niet bang om mijn eigen spirituele pad te volgen, en ik ga af op de spirituele kwaliteit van religieuze autoriteiten, wereldvisies of raadgevers.",
+                "color": "geel",
+                "category": "Mijn geloof"
+            },
+            {
+                "text": " Dat ik kan twijfelen aan God of aan geloofsvoorstellingen is voor mij niet een probleem: het is belangrijk om als vrij mens te kunnen twijfelen.",
+                "color": "oranje",
+                "category": "Mijn geloof"
+            },
+            {
+                "text": " Voor God sta je als mens in principe alleen. Je kunt je verantwoordelijkheid niet afschuiven op de groep. Wat telt is je eigen geweten.",
+                "color": "oranje",
+                "category": "Mijn religieuze leven"
+            },
+            {
+                "text": " Ik ben ervan overtuigd dat, met voldoende vorming en toerusting, een gemeente mogelijk is waar alles en iedereen erop vooruitgaat: ikzelf, de samenleving en het milieu.",
+                "color": "geel",
+                "category": "Mijn religieuze leven"
+            },
+            {
+                "text": " Echte vrede tussen mensen, volken en religies begint met liefdevolle omgang met elkaar in de alledaagse dingen, en daar wil ik graag mijn bijdrage aan leveren.",
+                "color": "groen",
+                "category": "Mijn religieuze leven"
+            },
+            {
+                "text": " Ik voel me in een kerkelijke gemeente alleen prettig als daar recht gedaan wordt aan mijn mogelijkheden en mijn persoon gerespecteerd wordt.",
+                "color": "rood",
+                "category": "Mijn religieuze leven"
+            },
+            {
+                "text": " Ik kan me in kerkdiensten en bijeenkomsten diep verbonden voelen met mensen van andere culturen, ook al versta ik geen woord van hun taal.",
+                "color": "turquoise",
+                "category": "Mijn religieuze leven"
+            },
+            {
+                "text": " In mijn gezin zorg ik ervoor dat boze geesten geen vat op ons kunnen krijgen. En stiekem ben ik soms best een beetje bijgelovig.",
+                "color": "purper",
+                "category": "Mijn religieuze leven"
+            },
+            {
+                "text": " Onoprechtheid en bedrog lonen nooit, ook als het er soms op lijkt dat je jezelf benadeelt door eerlijk te zijn.",
+                "color": "blauw",
+                "category": "Mijn religieuze leven"
+            },
+            {
+                "text": " Op basis van de wetenschap, de ratio en het gezond verstand kun je alles ook goed verklaren zonder religie.",
+                "color": "oranje",
+                "category": "Mijn visie op de wereld"
+            },
+            {
+                "text": " Alle mensen moeten dezelfde kansen krijgen. Overheid, kerk en samenleving moeten de zwakken een goede ondersteuning bieden.",
+                "color": "groen",
+                "category": "Mijn visie op de wereld"
+            },
+            {
+                "text": " Wie zich aan Gods geboden houdt, kan daarmee altijd onderscheid maken tussen goed en kwaad, en zal zodoende in de hemel komen.",
+                "color": "blauw",
+                "category": "Mijn visie op de wereld"
+            },
+            {
+                "text": " Alle materie wordt beïnvloed door geest en is van geest doordrenkt. Er is geen tegenstelling meer tussen religie en natuurwetenschap.",
+                "color": "turquoise",
+                "category": "Mijn visie op de wereld"
+            },
+            {
+                "text": " Ik ben ingesteld op een leven lang leren, en ik zie mijn leven als een lange reeks diepgaande veranderingsprocessen van mijn bewustzijn.",
+                "color": "geel",
+                "category": "Mijn visie op de wereld"
+            },
+            {
+                "text": " De wereld is dat wat ik ervan maak.",
+                "color": "rood",
+                "category": "Mijn visie op de wereld"
+            },
+            {
+                "text": " Vaak merk ik dat ook dieren, planten en zelfs stenen een ziel hebben.",
+                "color": "purper",
+                "category": "Mijn visie op de wereld"
+            }
+        ];
+
+    htmlBuilder = "";
+
+    var prevCategory = ""
+
+    questions.forEach(function (currentValue, index, arr) {
+        if (currentValue.category != prevCategory) {
+            htmlBuilder += "<br/><h3>" + currentValue.category + "</h3><br/>";
+            prevCategory = currentValue.category;
+        }
+
+        htmlBuilder += "<span>" + currentValue.text + "</span><br/>";
+        htmlBuilder += "<input type=\"radio\" name=\"q" + index + "\" value=\"0\" id=\"q-0-" + index + "\"> </input>";
+        htmlBuilder += "<label for=\"q-0-" + index + "\">0</label>";
+        htmlBuilder += "<input type=\"radio\" name=\"q" + index + "\" value=\"1\" id=\"q-1-" + index + "\"> </input>";
+        htmlBuilder += "<label for=\"q-1-" + index + "\">1</label>";
+        htmlBuilder += "<input type=\"radio\" name=\"q" + index + "\" value=\"2\" id=\"q-2-" + index + "\"> </input>";
+        htmlBuilder += "<label for=\"q-2-" + index + "\">2</label>";
+        htmlBuilder += "<input type=\"radio\" name=\"q" + index + "\" value=\"3\" id=\"q-3-" + index + "\"> </input>";
+        htmlBuilder += "<label for=\"q-3-" + index + "\">3</label>";
+        htmlBuilder += "<br/><br/>"
+    });
+
+
+
+    document.getElementById("questions").innerHTML = htmlBuilder;
+
+    function hideResults() {
+        var button = document.getElementById("resultButton");
+        button.style.display = "block";
+        var questionsBlock = document.getElementById("questions");
+        questionsBlock.style.display = "block";
+
+        var resultBlock = document.getElementById("results");
+        resultBlock.style.display = "none"
+
+        document.getElementById("explanation").style.display = "block";
+    }
+
+    function showResults() {
+
+        var button = document.getElementById("resultButton");
+        button.style.display = "none";
+        var questionsBlock = document.getElementById("questions");
+        questionsBlock.style.display = "none";
+
+        document.getElementById("explanation").style.display = "none";
+
+        var resultBlock = document.getElementById("results");
+        resultBlock.style.display = "block"
+
+        var purpleCount = 0;
+        var redCount = 0;
+        var blueCount = 0;
+        var orangeCount = 0;
+        var greenCount = 0;
+        var yellowCount = 0;
+        var turquoiseCount = 0;
+
+        questions.forEach(function (currentValue, index, arr) {
+            var nr = 0;
+            console.log(index);
+            if (document.getElementById("q-0-" + index).checked) {
+                nr = 0;
+            } else if (document.getElementById("q-1-" + index).checked) {
+                nr = 1;
+            } else if (document.getElementById("q-2-" + index).checked) {
+                nr = 2;
+            } else if (document.getElementById("q-3-" + index).checked) {
+                nr = 3;
+            }
+            if (currentValue.color == "groen") {
+                greenCount += nr;
+            } else if (currentValue.color == "purper") {
+                purpleCount += nr;
+            } else if (currentValue.color == "rood") {
+                redCount += nr;
+            } else if (currentValue.color == "geel") {
+                yellowCount += nr;
+            } else if (currentValue.color == "blauw") {
+                blueCount += nr;
+            } else if (currentValue.color == "oranje") {
+                orangeCount += nr;
+            } else if (currentValue.color == "turquoise") {
+                turquoiseCount += nr;
+            }
+        });
+
+        document.getElementById("result-purple").innerHTML = purpleCount;
+        document.getElementById("result-red").innerHTML = redCount;
+        document.getElementById("result-blue").innerHTML = blueCount;
+        document.getElementById("result-orange").innerHTML = orangeCount
+        document.getElementById("result-green").innerHTML = greenCount;
+        document.getElementById("result-yellow").innerHTML = yellowCount;
+        document.getElementById("result-turquoise").innerHTML = turquoiseCount
+    }
+</script>
+
+</html>
